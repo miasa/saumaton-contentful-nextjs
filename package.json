@@ -1,24 +1,32 @@
 {
-  "name": "suamaton",
+  "name": "saumaton",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:types": "contentful-typescript-codegen --output src/@types/contentful.d.ts"
   },
   "dependencies": {
+    "@contentful/live-preview": "^2.14.0",
+    "date-fns": "^2.30.0",
+    "next": "14.0.4",
+    "next-cloudinary": "^5.13.0",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.0.4"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@contentful/rich-text-react-renderer": "^15.19.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "contentful": "^10.6.14",
+    "contentful-management": "^11.6.1",
+    "contentful-typescript-codegen": "^3.4.0",
     "eslint": "^8",
-    "eslint-config-next": "14.0.4"
+    "eslint-config-next": "14.0.4",
+    "typescript": "^5"
   }
 }

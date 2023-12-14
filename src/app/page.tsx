@@ -1,7 +1,13 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import Image from 'next/image';
+import styles from './page.module.css';
+import { IPostFields } from '@/@types/contentful';
+import ContentService from '@/util/content-service';
 
-export default function Home() {
+interface Props {
+  posts: IPostFields[];
+}
+
+function Home({ posts }: Props) {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -40,56 +46,22 @@ export default function Home() {
       </div>
 
       <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        {posts.map((post: IPostFields) => (
+          <a key={post.slug} href={`/${post.slug}`} className={styles.card}>
+            <h2>{post.title}</h2>
+          </a>
+        ))}
       </div>
     </main>
   )
+}
+
+export default async function Page() {
+  const posts = (
+    await ContentService.instance.getEntriesByType<IPostFields>("post")
+  ).map((entry) => entry.fields);
+
+  console.log('Home page', posts);
+
+  return <Home posts={posts} />
 }
